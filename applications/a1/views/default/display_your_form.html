@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<h1>This is the display_your_form.html template</h1>
+
+<h2>
+    INputs
+</h2>
+{{=form}}
+<h2>
+    
+Submited Variables </h2>
+{{=BEAUTIFY(request.vars)}}
