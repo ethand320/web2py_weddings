@@ -1,0 +1,64 @@
+{{'''
+# License: Public Domain
+# Author: Iceberg at 21cn dot com
+
+With this generic.load file, you can use same function to serve two purposes.
+
+= regular action
+- ajax callback (when called with .load)
+
+Example modified from http://www.web2py.com/AlterEgo/default/show/252:
+
+def index():
+    return dict(
+		part1='hello world',
+        	part2=LOAD(url=URL(r=request,f='auxiliary.load'),ajax=True))
+
+def auxiliary():
+    form=SQLFORM.factory(Field('name'))
+    if form.accepts(request.vars):
+        response.flash = 'ok' 
+        return dict(message="Hello %s" % form.vars.name)
+    return dict(form=form)
+
+Notice:
+
+- no need to set response.headers['web2py-response-flash']
+- no need to return a string
+even if the function is called via ajax.
+
+'''}}
+<!--
+{{if len(response._vars)==1:}}{{=response._vars.values()[0]}}{{else:}}{{=BEAUTIFY(response._vars)}}{{pass}}
+-->
+{{=form}}
+
+<div id="result">
+    <h2>
+   Search Results
+</h2>
+
+    
+{{for item in out:}} 
+
+ <div class="venueDisp">   
+ 
+     <h3>
+         {{=out[item]['venue']['venue_name']}}
+     </h3>
+
+ <img src="../../a1/static/{{=out[item]['venue']['venue_image']}}" style="height: 100px; width: 100px; float:left; padding: 0 25px 0 0;"></img> 
+    
+       
+    <div > 
+        The basics: </br><ul>
+        <li>Venue Type: {{=out[item]['venue']['venue_type']}}</li>
+        <li>Contact Info: {{=out[item]['venue']['venue_contact']}}</li>
+        <li>Average Cost:  {{=out[item]['venue']['venue_cost']}}</li>
+        </ul>
+    </div>
+             <a href="http://edrower.pythonanywhere.com/a1/default/display_venue.html?venueID={{=item}}&venueName={{=out[item]['venue]['venue_name']}}">See more information and book</a>   
+  </div>
+{{pass}}
+ 
+</div>

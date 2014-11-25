@@ -1,0 +1,83 @@
+{{extend 'layout.html'}}
+<h2>Please Search for a Venue by Name, or Simply Browse by Type or Date!</h2>
+
+<!-- {{=form}} --> 
+
+ <!-- {{=BEAUTIFY(form.vars)}}  -->
+
+<!-- old broken bugged impl
+
+
+{{for item in res:}}{{for i in item:}}<li> {{=i}} {{pass}}</li> {{pass}}
+
+
+
+{{for row in res:}} 
+
+ <div class="venueDisp">   
+    <h3>{{=row.venue.venue_name}}</h3>
+      <img src="../../a1/static/{{=row.venue.venue_image}}" style="height: 100px; width: 100px; float:left; padding: 0 25px 0 0;"></img> 
+    
+       
+    <div > 
+        The basics: </br><ul>
+        <li>Venue Type: {{=row.venue.venue_type}}</li>
+        <li>Contact Info: {{=row.venue.venue_contact}}</li>
+        <li>Average Cost: {{=row.venue.venue_cost}}</li>
+        </ul>
+    </div>
+             <a href="http://edrower.pythonanywhere.com/a1/default/display_venue.html?venueID={{=row.venue.id}}">See more information and book</a>   
+  </div>
+
+<br>
+{{=row.venue.venue_description}}
+
+    
+    
+
+
+{{pass}}
+
+-->
+
+<br>
+<br>
+
+
+<!-- commenting out to test ajax!
+
+<div id="result">
+    
+    
+{{for item in out:}} 
+
+ <div class="venueDisp">   
+ 
+     <h3>
+         {{=out[item]['venue']['venue_name']}}
+     </h3>
+ 
+ <img src="../../a1/static/{{=out[item]['venue']['venue_image']}}" style="height: 100px; width: 100px; float:left; padding: 0 25px 0 0;"></img> 
+    
+       
+    <div > 
+        The basics: </br><ul>
+        <li>Venue Type: {{=out[item]['venue']['venue_type']}}</li>
+        <li>Contact Info: {{=out[item]['venue']['venue_contact']}}</li>
+        <li>Average Cost:  {{=out[item]['venue']['venue_cost']}}</li>
+        </ul>
+    </div>
+             <a href="http://edrower.pythonanywhere.com/a1/default/display_venue.html?venueID={{=item}}">See more information and book</a>   
+  </div>
+
+<br>
+
+{{=out[item]['venue']['venue_description']}}
+
+
+{{pass}}
+ 
+</div>
+
+-->
+{{=LOAD('default','venue_search.load', ajax=True)}}

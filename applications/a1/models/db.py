@@ -75,19 +75,33 @@ use_janrain(auth, filename='private/janrain.key')
 ##
 ## More API examples for controllers:
 ##
-## >>> db.mytable.insert(myfield='value')
+## >>> db.mytable.insert(myfield='vafffffaaaafffffffffffffff
 ## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
-
+from datetime import date
 
 db = DAL('sqlite://webform.sqlite')
 db.define_table('venue',
-                Field('venue_name', requires=IS_NOT_EMPTY()),
-                Field('venue_contact', requires=IS_NOT_EMPTY()))
+                Field('venue_name'),
+                Field('venue_description', 'text'),
+                Field('venue_cost', requires=IS_IN_SET(['$','$$','$$$'])),
+                Field('venue_image', 'string'),
+                Field('venue_contact', requires=IS_NOT_EMPTY()),
+                Field('venue_type', requires=IS_IN_SET(['Any','Ceremony','Reception','Rehearsal Dinner'])),
+                Field('start_date', 'date', default=request.now),
+                Field('end_date', 'date', default=date(2100,01,01))
+                )
 
+db.define_table('dates_available',
+                Field('venue','reference venue'),
+                Field('available_date', 'date'))
 
-
+db.define_table('bookings',
+             Field('venue_name', 'string'),
+             Field('date_booked', 'date'),
+             Field('username_booked', 'string')
+              )
 
 
 

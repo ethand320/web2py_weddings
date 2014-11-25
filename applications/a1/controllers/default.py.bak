@@ -75,6 +75,84 @@ def data():
     """
     return dict(form=crud())
 
+
+
+
+#for booking management, can possibly show them as an sql grid ?
+@auth.requires_login()
+def bookings():
+    rows = db(db.bookings.username_booked == auth.user.email).select())
+
+   # message2 = dict('hello %(first_name)s' % auth.user)
+    message = dict(auth.user)
+    return dict(rows=rows, message=message)
+
+
+def book_form_processor(form):
+    rows = db( (db.bookings.venue_name == request.vars.venueName) & (db.bookings.date_booked == request.vars.date_booked)).select()
+    if (len(rows) > 0):
+        
+        form.errors.booking_date = 'Date is already booked for this venue!  Try another'
+    
+    
+
+@auth.requires_login()
+def display_venue():
+    res = db(db.venue.id==request.vars.venueID).select()
+    form=SQLFORM(db.bookings, fields=['date_booked'], labels={'date_booked': 'Requested Date'})
+    '''if form.validate():
+        rows = db( (db.booking.venue_name == request.vars.venue_name) & (db.booking.date_booked == request.vars.date_booked)).select()
+        if (len(rows) > 0):
+            pass
+        else:
+            db.booking.insert(venue_name = request.vars.venue_name, date_booked=request.vars.date_booked, username_booked = auth.user.email)'''
+    if form.process(onvalidation=book_form_processor, message_onsuccess='whoohoo you booked!', message_onfailure='Sorry! That date is booked, try another' ).accepted:
+        db.bookings.insert(venue_name=request.vars.venueName, date_booked=request.vars.date_booked, username_booked = auth.user.email)
+        
+                    
+        
+        
+    
+    return dict(res=res, form=form)
+
 def display_your_form():
-    form=FORM('Your name:', INPUT(_name='name'), INPUT(_type='submit'))
-    return dict(form=form)
+    #form=FORM('Your name:', INPUT(_name='name'), INPUT(_type='submit'))
+    fields = ['venue_name']
+    form=SQLFORM(db.venue, fields)
+    res = ''
+    '''if form.accepts(request,session):'''
+    if form.validate():
+            
+        #form.vars.venue_name = "conditional accepted!"
+        res = db(db.venue.venue_name== 'redVenue').select()
+        form.vars.venue_name = res[0]['venue_name']
+        
+    return dict(form=form, res=res)
+
+def venue_search():
+  
+
+    form=SQLFORM(db.venue, fields=['venue_name', 'venue_type', 'start_date','end_date'])
+    res =''
+    out = {}
+   
+    #if form.accepts(request,session):
+    if form.validate():
+        if (form.vars.venue_type == 'Any'):
+            
+            rows = db((db.dates_available.available_date > form.vars.start_date) & (db.dates_available.available_date < form.vars.end_date), db.dates_available.venue==db.venue.id).select(join=db.dates_available.on(db.dates_available.venue==db.venue.id))
+        else:
+             rows = db((db.dates_available.available_date > form.vars.start_date) & (db.dates_available.available_date < form.vars.end_date) & (db.venue.venue_type == form.vars.venue_type), db.dates_available.venue==db.venue.id).select(join=db.dates_available.on(db.dates_available.venue==db.venue.id))
+            
+        res = rows
+        i =0
+
+        for row in rows:
+            if( row in out):
+                pass
+            else:
+                #out[i] = row  works but doesnt quite return the same data type
+                out[row.venue.id] = row
+                i += 1
+                
+    return dict(form=form, res=res, out=out)

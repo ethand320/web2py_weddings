@@ -23,7 +23,9 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
+    (T('Home'), False, URL('default', 'venue_search.html'), []),
+    (T('View Your Bookings'), False, URL('bookings.html'), []),
+    (T('Search Venues'), False, URL('venue_search.html'), [])
 ]
 
 DEVELOPMENT_MENU = True
@@ -37,7 +39,7 @@ def _():
     app = request.application
     ctr = request.controller
     # useful links to internal and external resources
-    response.menu += [
+    '''   response.menu += [
         (SPAN('web2py', _class='highlighted'), False, 'http://web2py.com', [
         (T('My Sites'), False, URL('admin', 'default', 'site')),
         (T('This App'), False, URL('admin', 'default', 'design/%s' % app), [
@@ -133,7 +135,7 @@ def _():
                          False, 'http://web2py.com/layouts'),
                         ])
                 ]
-         )]
+         )] '''
 if DEVELOPMENT_MENU: _()
 
-if "auth" in locals(): auth.wikimenu() 
+if "auth" in locals(): auth.wikimenu()

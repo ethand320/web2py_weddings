@@ -1,0 +1,39 @@
+{{extend 'layout.html'}}
+<!--
+<h1>This is the default/display_venue.html template</h1>
+{{=BEAUTIFY(response._vars)}}  -->
+
+
+
+
+
+{{for row in res:}}
+   
+<h2>
+
+{{=row['venue.venue_name']}}
+</h2>
+
+<div class="venueProfDisp" >
+  <img src="../../a1/static/{{=row['venue.venue_image']}}" style="float: left; width: 400px; height: 300px; padding: 0px 10px 0px 0px; font-size: 25px;">
+</img>  
+
+
+{{=row['venue.venue_name']}}
+{{=row['venue.venue_description']}}
+
+<h2>
+    General Information
+</h2>
+<ul>
+   <li>Cost: {{=row['venue.venue_cost']}} </li>
+
+
+<li>Contact Email: {{=row['venue.venue_contact']}} </li>
+    </ul>
+</div>
+{{pass}}
+<h2>
+    Rquest Booking Below
+</h2>
+{{=form}}

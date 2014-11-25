@@ -60,3 +60,48 @@ CREATE TABLE venue(
     venue_contact CHAR(512)
 );
 success!
+timestamp: 2014-11-18T23:55:46.080474
+ALTER TABLE venue ADD venue_type CHAR(512);
+timestamp: 2014-11-18T23:55:46.170513
+ALTER TABLE venue ADD end_date DATE;
+timestamp: 2014-11-18T23:55:46.271630
+ALTER TABLE venue ADD start_date DATE;
+success!
+timestamp: 2014-11-19T00:07:09.695248
+CREATE TABLE dates_availabile(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    venue INTEGER REFERENCES venue (id) ON DELETE CASCADE,
+    available_date DATE
+);
+success!
+timestamp: 2014-11-19T00:27:10.576058
+CREATE TABLE dates_available(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    venue INTEGER REFERENCES venue (id) ON DELETE CASCADE,
+    available_date DATE
+);
+success!
+timestamp: 2014-11-21T02:33:09.754603
+ALTER TABLE venue ADD venue_cost CHAR(512);
+timestamp: 2014-11-21T02:33:09.865375
+ALTER TABLE venue ADD venue_description TEXT;
+timestamp: 2014-11-21T02:33:09.890830
+ALTER TABLE venue ADD venue_image CHAR(512);
+success!
+timestamp: 2014-11-24T03:02:05.574064
+CREATE TABLE booking(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    venue_name INTEGER REFERENCES venue (id) ON DELETE CASCADE,
+    date_booked DATE,
+    username_booked CHAR(512)
+);
+success!
+success!
+timestamp: 2014-11-25T04:50:29.466897
+CREATE TABLE bookings(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    venue_name CHAR(512),
+    date_booked DATE,
+    username_booked CHAR(512)
+);
+success!

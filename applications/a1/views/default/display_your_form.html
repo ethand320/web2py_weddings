@@ -8,4 +8,9 @@
 <h2>
     
 Submited Variables </h2>
-{{=BEAUTIFY(request.vars)}}
+{{=BEAUTIFY(form.vars)}}
+<h2>
+   Below here is the try at iteration of only the vars i want
+</h2>
+{{=res}}
+{{for item in res:}}<li> {{=item}}</li> {{pass}}

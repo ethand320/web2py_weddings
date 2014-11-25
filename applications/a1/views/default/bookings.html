@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+
+<h2>
+Here are your bookings:
+    
+</h2>
+
+<table class="bookingTable" >
+    
+
+{{for row in rows:}}
+<tr>
+    <td> {{=row.venue_name }}  </td>
+    <td>{{=row.date_booked}}</td>
+    
+    
+</tr>
+    {{pass}}
+
+    </table>

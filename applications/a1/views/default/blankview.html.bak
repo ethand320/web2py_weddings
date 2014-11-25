@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+<h1>This is the default/blankview.html template</h1>
+{{=BEAUTIFY(response._vars)}}
+
+
+
+{{=request.vars.test}}  <br>
+
+{{=request.vars.added}}
